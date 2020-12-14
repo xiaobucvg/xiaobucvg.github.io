@@ -40,7 +40,62 @@
         <hr>
     </div>
     <div class="post-content">
-        
+        <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>构建项目的时候避免不了使用一些本地 Jar 包，这些Jar包不在中央仓库里存在，我们在本地添加了依赖后，本机使用虽然没问题，但是如果想用比如 Docker 自动化构建这种远程构建的话就会出现问题，针对这种情况，可以采用以下几个步骤解决：</p>
+<h2 id="二、将本地Jar包安装成Maven依赖"><a href="#二、将本地Jar包安装成Maven依赖" class="headerlink" title="二、将本地Jar包安装成Maven依赖"></a>二、将本地Jar包安装成Maven依赖</h2><p>进入到 Jar 包所在目录，使用一条命令：</p>
+<pre><code class="shell">mvn install:install-file -DgroupId=site.xiaobu -DartifactId=xiaobuTool -Dversion=1.0.0 -Dpackaging=jar -Dfile=xiaobuTool.jar</code></pre>
+<p>这条命令的意思是将 xiaobuTool.jar 这个 jar 包用 jar 的形式安装到仓库，这样项目中就可以直接引用了。<br>引用示例：</p>
+<pre><code>   &lt;dependencies&gt;
+        &lt;dependency&gt;
+            &lt;groupId&gt;site.xiaobu&lt;/groupId&gt;
+            &lt;artifactId&gt;xiaobuTool&lt;/artifactId&gt;
+            &lt;version&gt;1.0.0&lt;/version&gt;
+        &lt;/dependency&gt;
+    &lt;/dependencies&gt;</code></pre>
+<h2 id="三、找到本地仓库中安装的Jar包根目录并复制到项目下"><a href="#三、找到本地仓库中安装的Jar包根目录并复制到项目下" class="headerlink" title="三、找到本地仓库中安装的Jar包根目录并复制到项目下"></a>三、找到本地仓库中安装的Jar包根目录并复制到项目下</h2><p><strong>3.1 安装的 jar 包默认在<code>~/.m2/repository</code>下面</strong><br><img src="https://upload-images.jianshu.io/upload_images/15228836-b6576734b3c261fe.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="本地安装jar包位置"><br><strong>3.2 在项目根目录中新建一个 lib 文件夹并将要使用的本地jar包整个目录复制进去</strong><br><img src="https://upload-images.jianshu.io/upload_images/15228836-3e0bf7c990e79b82.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="lib目录"></p>
+<h2 id="三、在POM文件中配置本地仓库"><a href="#三、在POM文件中配置本地仓库" class="headerlink" title="三、在POM文件中配置本地仓库"></a>三、在POM文件中配置本地仓库</h2><p>在 pom 文件中添加下列的项，id 和 name 可以随意，url 中 ${project.basedir} 指的是项目根目录，意思是从将项目根目录下的 lib 文件夹作为本地仓库。</p>
+<pre><code class="xml">    &lt;repositories&gt;
+        &lt;!-- 本地仓库 --&gt;
+        &lt;repository&gt;
+            &lt;id&gt;in-project&lt;/id&gt;
+            &lt;name&gt;In Project Repo&lt;/name&gt;
+            &lt;url&gt;file://$&#123;project.basedir&#125;/lib&lt;/url&gt;
+        &lt;/repository&gt;
+    &lt;/repositories&gt;</code></pre>
+<h2 id="四、后记"><a href="#四、后记" class="headerlink" title="四、后记"></a>四、后记</h2><p>至此，maven 项目就可以在其余主机上顺利被构建了。<br>附带项目的一些构建配置：</p>
+<pre><code class="xml">   &lt;build&gt;
+        &lt;finalName&gt;$&#123;project.artifactId&#125;&lt;/finalName&gt;
+        &lt;plugins&gt;
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-compiler-plugin&lt;/artifactId&gt;
+                &lt;configuration&gt;
+                    &lt;source&gt;$&#123;java.version&#125;&lt;/source&gt;
+                    &lt;target&gt;$&#123;java.version&#125;&lt;/target&gt;
+                    &lt;encoding&gt;UTF-8&lt;/encoding&gt;
+                &lt;/configuration&gt;
+            &lt;/plugin&gt;
+            &lt;plugin&gt;
+                &lt;artifactId&gt;maven-shade-plugin&lt;/artifactId&gt;
+                &lt;executions&gt;
+                    &lt;execution&gt;
+                        &lt;phase&gt;package&lt;/phase&gt;
+                        &lt;goals&gt;
+                            &lt;goal&gt;shade&lt;/goal&gt;
+                        &lt;/goals&gt;
+                        &lt;configuration&gt;
+                            &lt;transformers&gt;
+                                &lt;transformer
+                                        implementation=&quot;org.apache.maven.plugins.shade.resource.ManifestResourceTransformer&quot;&gt;
+                                    &lt;!-- 指定项目主启动类 --&gt;
+                                    &lt;mainClass&gt;xxx.xxx.xxx.xxx.App&lt;/mainClass&gt;
+                                &lt;/transformer&gt;
+                            &lt;/transformers&gt;
+                        &lt;/configuration&gt;
+                    &lt;/execution&gt;
+                &lt;/executions&gt;
+            &lt;/plugin&gt;
+        &lt;/plugins&gt;
+    &lt;/build&gt;</code></pre>
+
     </div>
 
     
