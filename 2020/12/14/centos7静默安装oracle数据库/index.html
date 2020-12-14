@@ -43,135 +43,62 @@
         <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>静默安装就是不使用图形化界面的安装，全部用命令与配置文件进行安装的方式。<br>如果你在 Windows 下安装过 Oracle 数据库，理解起来可能会比较简单。<br>个人使用的环境为：Centos7 + Oracle11gR2。<br>提前去官网下载好 Oracle 的压缩包，放到 <code>/opt/download</code> 目录中，可能有两个压缩包，使用命令 <code>unzip xxx1.zip</code> 、<code>unzip xxx2.zip</code> 将两个压缩包解压，得到 <code>database</code> 目录。</p>
 <h2 id="二、步骤拆解"><a href="#二、步骤拆解" class="headerlink" title="二、步骤拆解"></a>二、步骤拆解</h2><p>系统环境配置  |  安装数据库软件  |  配置静默监听  |  静默方式创建数据库同时建立实例</p>
 <h2 id="三、详细步骤"><a href="#三、详细步骤" class="headerlink" title="三、详细步骤"></a>三、详细步骤</h2><h4 id="3-1-系统环境配置"><a href="#3-1-系统环境配置" class="headerlink" title="3.1 系统环境配置"></a>3.1 系统环境配置</h4><p><strong>3.1.1 安装依赖</strong><br>这些是需要的依赖，需要先安装好，不能漏掉。</p>
-<pre><code class="shell"># yum install 
-  gcc 
-  make 
-  binutils 
-  gcc-c++ 
-  compat-libstdc++-33elfutils-libelf-devel 
-  elfutils-libelf-devel-static 
-  ksh 
-  libaio 
-  libaio-develnumactl-devel 
-  sysstat 
-  unixODBC 
-  unixODBC-devel 
-  pcre-devel </code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> yum install</span> </span><br><span class="line">  gcc </span><br><span class="line">  make </span><br><span class="line">  binutils </span><br><span class="line">  gcc-c++ </span><br><span class="line">  compat-libstdc++-33elfutils-libelf-devel </span><br><span class="line">  elfutils-libelf-devel-static </span><br><span class="line">  ksh </span><br><span class="line">  libaio </span><br><span class="line">  libaio-develnumactl-devel </span><br><span class="line">  sysstat </span><br><span class="line">  unixODBC </span><br><span class="line">  unixODBC-devel </span><br><span class="line">  pcre-devel </span><br></pre></td></tr></table></figure>
+
 <p><strong>3.1.2 配置用户和组</strong><br>安装 Oracle 需要用到 oracle 用户，所以需要手动创建好用户和用户组。</p>
-<pre><code class="shell">[root@CentOS \]# groupadd oinstall      # 这是创建用户组
-[root@CentOS \]# groupadd dba           # 这是创建用户组
-[root@CentOS \]# useradd -g oinstall -G dba oracle   # 这是创建用户并指定用户组
-[root@CentOS \]# passwd oracle       # 这是配置用户密码</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS \]# groupadd oinstall      # 这是创建用户组</span><br><span class="line">[root@CentOS \]# groupadd dba           # 这是创建用户组</span><br><span class="line">[root@CentOS \]# useradd -g oinstall -G dba oracle   # 这是创建用户并指定用户组</span><br><span class="line">[root@CentOS \]# passwd oracle       # 这是配置用户密码</span><br></pre></td></tr></table></figure>
 <p>创建好之后可以确认一下用户信息。</p>
-<pre><code class="shell">[root@CentOS \] id oracle    # 这是查看用户信息</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS \] id oracle    # 这是查看用户信息</span><br></pre></td></tr></table></figure>
 <p>这是输出信息。</p>
-<pre><code class="shell">uid=1001(oracle) gid=1001(oinstall) 组=1001(oinstall),1002(dba)</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uid=1001(oracle) gid=1001(oinstall) 组=1001(oinstall),1002(dba)</span><br></pre></td></tr></table></figure>
+
 <p><strong>3.1.3 修改内核参数配置文件</strong><br>这一步是让 Oracle 更好的工作。<br>使用命令 <code>vim /etc/sysctl.conf</code> 打开配置文件，文件后面追加下面的内容。</p>
-<pre><code class="shell">fs.aio-max-nr = 1048576
-fs.file-max = 6815744
-kernel.shmall = 2097152
-kernel.shmmax = 1073741824         # 本机物理内存（2G）的一半
-kernel.shmmni = 4096
-kernel.sem = 250 32000 100 128
-net.ipv4.ip_local_port_range = 9000 65500
-net.core.rmem_default = 262144
-net.core.rmem_max = 4194304
-net.core.wmem_default = 262144
-net.core.wmem_max = 1048576</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fs.aio-max-nr = 1048576</span><br><span class="line">fs.file-max = 6815744</span><br><span class="line">kernel.shmall = 2097152</span><br><span class="line">kernel.shmmax = 1073741824         # 本机物理内存（2G）的一半</span><br><span class="line">kernel.shmmni = 4096</span><br><span class="line">kernel.sem = 250 32000 100 128</span><br><span class="line">net.ipv4.ip_local_port_range = 9000 65500</span><br><span class="line">net.core.rmem_default = 262144</span><br><span class="line">net.core.rmem_max = 4194304</span><br><span class="line">net.core.wmem_default = 262144</span><br><span class="line">net.core.wmem_max = 1048576</span><br></pre></td></tr></table></figure>
 <p><em>注：其中 <code>kernel.shmmax = 1073741824</code> 设置为本机物理内存（2G）的一半，单位为byte。</em><br>保存退出后使用命令 <code> sysctl -p</code> 使其生效。</p>
 <p><strong>3.1.4 修改用户限制文件</strong><br>这一步是限制 Oracl 用户的权限。<br>使用命令 <code>vim /etc/security/limits.conf</code> 打开用户限制配置文件。<br>在文件的后面追加以下内容：</p>
-<pre><code>oracle           soft      nproc           2047
-oracle           hard     nproc         16384
-oracle           soft      nofile           1024
-oracle           hard     nofile          65536
-oracle           soft      stack           10240</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">oracle           soft      nproc           2047</span><br><span class="line">oracle           hard     nproc         16384</span><br><span class="line">oracle           soft      nofile           1024</span><br><span class="line">oracle           hard     nofile          65536</span><br><span class="line">oracle           soft      stack           10240</span><br></pre></td></tr></table></figure>
 <p>保存退出。<br>使用命令 <code>vim /etc/pam.d/login</code> 打开用户登录配置文件。<br>在文件后面追加以下内容：</p>
-<pre><code>session required   /lib64/security/pam_limits.so
-session required   pam_limits.so</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">session required   &#x2F;lib64&#x2F;security&#x2F;pam_limits.so</span><br><span class="line">session required   pam_limits.so</span><br></pre></td></tr></table></figure>
 <p>保存退出。<br>使用命令 <code>vim /etc/profile</code> 打开环境变量配置文件。<br>在文件后面追加以下内容：</p>
-<pre><code>if [ $USER = &quot;oracle&quot; ]; then
-  if[ $SHELL = &quot;/bin/ksh&quot; ]; then
-    ulimit -p 16384
-    ulimit -n 65536
-  else
-    ulimit -u 16384 -n 65536
-  fi
-fi</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">if [ $USER &#x3D; &quot;oracle&quot; ]; then</span><br><span class="line">  if[ $SHELL &#x3D; &quot;&#x2F;bin&#x2F;ksh&quot; ]; then</span><br><span class="line">    ulimit -p 16384</span><br><span class="line">    ulimit -n 65536</span><br><span class="line">  else</span><br><span class="line">    ulimit -u 16384 -n 65536</span><br><span class="line">  fi</span><br><span class="line">fi</span><br></pre></td></tr></table></figure>
 <p>保存退出。</p>
 <p><strong>3.1.5 创建安装目录、设置文件权限</strong><br>执行以下命令。</p>
-<pre><code class="shell">[root@CentOS /]# mkdir -p /data/oracle/product/11.2.0      # 这是创建安装目录
-[root@CentOS /]# mkdir /data/oracle/oradata                     # 这是创建实例的数据文件目录
-[root@CentOS /]# mkdir /data/oracle/inventory                  # 这是创建Oracle中央目录，Oracle 不建议将此目录创建到 ORACLE_BASE 中，不过不影响安装。
-[root@CentOS /]# mkdir /data/oracle/fast_recovery_area  
-[root@CentOS /]# chown -R oracle:oinstall /data/oracle   将目录所有者改为 Oracle 用户
-[root@CentOS /]# chmod -R 775 /data/oracle </code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS /]# mkdir -p /data/oracle/product/11.2.0      # 这是创建安装目录</span><br><span class="line">[root@CentOS /]# mkdir /data/oracle/oradata                     # 这是创建实例的数据文件目录</span><br><span class="line">[root@CentOS /]# mkdir /data/oracle/inventory                  # 这是创建Oracle中央目录，Oracle 不建议将此目录创建到 ORACLE_BASE 中，不过不影响安装。</span><br><span class="line">[root@CentOS /]# mkdir /data/oracle/fast_recovery_area  </span><br><span class="line">[root@CentOS /]# chown -R oracle:oinstall /data/oracle   将目录所有者改为 Oracle 用户</span><br><span class="line">[root@CentOS /]# chmod -R 775 /data/oracle </span><br></pre></td></tr></table></figure>
+
 <p><strong>3.1.6 更改oracle用户的环境变量</strong><br>切换用户。</p>
-<pre><code class="shell">[root@CentOS /]# su - oracle      # 中间加 - 可以将环境变量同时切换</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS /]# su - oracle      # 中间加 - 可以将环境变量同时切换</span><br></pre></td></tr></table></figure>
 <p>打开配置文件。</p>
-<pre><code class="shell">[oracle@Centos /]$ vim ~/.bash_profile</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@Centos /]$ vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
 <p>按照上一步创建的目录与文件内容，在该配置文件的后面追加以下内容：</p>
-<pre><code># oracle 设置
-ORACLE_BASE=/data/oracle            # oracle 的基目录
-ORACLE_HOME=$ORACLE_BASE/product/11.2.0 # oracle 的安装目录
-ORACLE_SID=orcl   # 这里必须和数据库实例名一致，所以创建的实例的时候要用这个名字
-PATH=$PATH:$ORACLE_HOME/bin   # oracle的命令存放目录
-ORACLE_UNQNAME=$ORACLE_SID
-export ORACLE_BASE ORACLE_HOME ORACLE_SID PATH ORACLE_UNQNAME</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># oracle 设置</span><br><span class="line">ORACLE_BASE&#x3D;&#x2F;data&#x2F;oracle            # oracle 的基目录</span><br><span class="line">ORACLE_HOME&#x3D;$ORACLE_BASE&#x2F;product&#x2F;11.2.0 # oracle 的安装目录</span><br><span class="line">ORACLE_SID&#x3D;orcl   # 这里必须和数据库实例名一致，所以创建的实例的时候要用这个名字</span><br><span class="line">PATH&#x3D;$PATH:$ORACLE_HOME&#x2F;bin   # oracle的命令存放目录</span><br><span class="line">ORACLE_UNQNAME&#x3D;$ORACLE_SID</span><br><span class="line">export ORACLE_BASE ORACLE_HOME ORACLE_SID PATH ORACLE_UNQNAME</span><br></pre></td></tr></table></figure>
 <p>使用命令 <code>source ~/.bash_profile</code> 刷新一下。</p>
 <p><strong>3.1.7 配置hostname</strong><br>使用命令 <code>hostname</code> 查看主机名，每个人不一样，比如我的是 <code>CentOS</code>。<br>使用命令 <code>vim /etc/hosts</code> 打开文件，追加一行主机与域名的记录。</p>
-<pre><code># 要使用你的IP地址和你的主机名
-192.168.1.1                   CentOS</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 要使用你的IP地址和你的主机名</span><br><span class="line">192.168.1.1                   CentOS</span><br></pre></td></tr></table></figure>
+
 <h4 id="3-2-安装数据库软件"><a href="#3-2-安装数据库软件" class="headerlink" title="3.2 安装数据库软件"></a>3.2 安装数据库软件</h4><p><strong>3.2.1 编辑静默安装响应文件</strong><br>静默安装数据库需要用到静默安装响应文件，静默安装响应文件就像使用图形化界面安装的时候点击的下一步、下一步一样，只不过是提前配置好，安装程序运行的时候就可以根据这个文件来做安装了。<br>切换到 <code>root</code> 用户，使用命令  <code>vim /opt/download/database/response/db_install.rsp</code> 打开静默安装响应文件。按照以下内容修改里面的内容：</p>
-<pre><code class="shell"># 表示只安装数据库
-oracle.install.option=INSTALL_DB_SWONLY
-# 当前的主机名，可以使用命令 `hostname` 查看
-ORACLE_HOSTNAME=CentOS
-UNIX_GROUP_NAME=oinstall
-# inventory 目录
-INVENTORY_LOCATION=/data/oracle/inventory
-SELECTED_LANGUAGES=en,zh_CN
-ORACLE_HOME=/data/oracle/product/11.2.0
-ORACLE_BASE=/data/oracle
-## 安装的版本 - 企业版
-oracle.install.db.InstallEdition=EE
-oracle.install.db.DBA_GROUP=dba
-oracle.install.db.OPER_GROUP=dba
-DECLINE_SECURITY_UPDATES=true</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> 表示只安装数据库</span></span><br><span class="line">oracle.install.option=INSTALL_DB_SWONLY</span><br><span class="line"><span class="meta">#</span><span class="bash"> 当前的主机名，可以使用命令 `hostname` 查看</span></span><br><span class="line">ORACLE_HOSTNAME=CentOS</span><br><span class="line">UNIX_GROUP_NAME=oinstall</span><br><span class="line"><span class="meta">#</span><span class="bash"> inventory 目录</span></span><br><span class="line">INVENTORY_LOCATION=/data/oracle/inventory</span><br><span class="line">SELECTED_LANGUAGES=en,zh_CN</span><br><span class="line">ORACLE_HOME=/data/oracle/product/11.2.0</span><br><span class="line">ORACLE_BASE=/data/oracle</span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment"># 安装的版本 - 企业版</span></span></span><br><span class="line">oracle.install.db.InstallEdition=EE</span><br><span class="line">oracle.install.db.DBA_GROUP=dba</span><br><span class="line">oracle.install.db.OPER_GROUP=dba</span><br><span class="line">DECLINE_SECURITY_UPDATES=true</span><br></pre></td></tr></table></figure>
 <p>保存退出。</p>
 <p><strong>3.2.2 使用oracle用户开始安装</strong></p>
-<pre><code class="shell">[oracle@CentOS ~]$ cd /opt/download/database/response/
-[oracle@CentOS response]$  ./runInstaller -silent -responseFile /opt/download/database/response/db_install.rsp -ignorePrereq</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[oracle@CentOS ~]$ cd /opt/download/database/response/</span><br><span class="line">[oracle@CentOS response]$  ./runInstaller -silent -responseFile /opt/download/database/response/db_install.rsp -ignorePrereq</span><br></pre></td></tr></table></figure>
 <p>这样，安装程序就在后台运行了，如果运行中发生了错误，提示信息中会有 [FATAL] 字样，出现这个字样说明安装失败，需要修改配置。<br>如果提示中出现 [WARNING] 字样可以不用理会，不会影响安装。<br>如果出现类似以下提示，就说明安装成功了，可能你的提示是英文版的。（不是自己的图，所以路径不对，请以你的路径为准）<br><img src="https://upload-images.jianshu.io/upload_images/15228836-12fa46d37f8f3f90.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="安装成功提示信息.png"><br>然后按照提示，打开一个新的终端，使用 <code>root</code> 身份执行上面的两个脚本。<br>至此，数据库的安装就完成了。</p>
 <h4 id="3-3-配置静默监听"><a href="#3-3-配置静默监听" class="headerlink" title="3.3 配置静默监听"></a>3.3 配置静默监听</h4><p>按照静默监听文件配置静默监听。<br>切换到 <code>oracle</code> 用户，运行命令：</p>
-<pre><code class="shell"> [oracle@CentOS ~]$ netca /silent /responseFile /opt/download/database/response/netca.rsp</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@CentOS ~]$ netca /silent /responseFile /opt/download/database/response/netca.rsp</span><br></pre></td></tr></table></figure>
 <p>执行成功后可以使用 <code>netstat</code> 命令查看是否正在监听。</p>
-<pre><code class="shell">[oracle@CentOS ~]# netstat -tnulp | grep 1521</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@CentOS ~]# netstat -tnulp | grep 1521</span><br></pre></td></tr></table></figure>
 <p>出现类似下面的信息就是正在监听。<br><img src="https://upload-images.jianshu.io/upload_images/15228836-d8d1de1d6bd9650a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="正在监听"></p>
 <h4 id="3-4-静默方式创建数据库同时建立实例"><a href="#3-4-静默方式创建数据库同时建立实例" class="headerlink" title="3.4 静默方式创建数据库同时建立实例"></a>3.4 静默方式创建数据库同时建立实例</h4><p><strong>3.4.1 编辑静默安装响应文件</strong><br>切换回 <code>root</code> 用户，编辑静默安装响应文件。</p>
-<pre><code class="shell">[root@CentOS /]# vim /opt/download/database/response/dbca.rsp</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@CentOS /]# vim /opt/download/database/response/dbca.rsp</span><br></pre></td></tr></table></figure>
 <p>将文件内容做以下修改：</p>
-<pre><code class="shell">GDBNAME= &quot;orcl&quot;
-SID =&quot; orcl&quot;
-SYSPASSWORD= &quot;oracle&quot;
-SYSTEMPASSWORD= &quot;oracle&quot;
-SYSMANPASSWORD= &quot;oracle&quot;
-DBSNMPPASSWORD= &quot;oracle&quot;
-DATAFILEDESTINATION=/data/oracle/oradata
-RECOVERYAREADESTINATION=/data/oracle/fast_recovery_area
-CHARACTERSET= &quot;ZHS16GBK&quot;
-TOTALMEMORY= &quot;1638&quot;</code></pre>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">GDBNAME= &quot;orcl&quot;</span><br><span class="line">SID =&quot; orcl&quot;</span><br><span class="line">SYSPASSWORD= &quot;oracle&quot;</span><br><span class="line">SYSTEMPASSWORD= &quot;oracle&quot;</span><br><span class="line">SYSMANPASSWORD= &quot;oracle&quot;</span><br><span class="line">DBSNMPPASSWORD= &quot;oracle&quot;</span><br><span class="line">DATAFILEDESTINATION=/data/oracle/oradata</span><br><span class="line">RECOVERYAREADESTINATION=/data/oracle/fast_recovery_area</span><br><span class="line">CHARACTERSET= &quot;ZHS16GBK&quot;</span><br><span class="line">TOTALMEMORY= &quot;1638&quot;</span><br></pre></td></tr></table></figure>
 <p><em>注：其中TOTALMEMORY =”1638” 为1638MB，物理内存2G x 80%。</em><br>保存退出。</p>
 <p><strong>3.4.2 开始执行静默安装</strong><br>切换回 <code>oracle</code> 用户，执行命令：</p>
-<pre><code>[oracle@CentOS ~]$ dbca -silent -responseFile /opt/download/database/response/dbca.rsp</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@CentOS ~]$ dbca -silent -responseFile &#x2F;opt&#x2F;download&#x2F;database&#x2F;response&#x2F;dbca.rsp</span><br></pre></td></tr></table></figure>
 <p>安装过程出现以下提示：（网上随便找的图，所以路径不一样）<br><img src="https://upload-images.jianshu.io/upload_images/15228836-7025a90eb0cd3d71.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="安装提示"><br>安装成功，检查一下实例。</p>
-<pre><code>[oracle@CentOS ~]$ ps -ef | grep ora_ | grep -v grep</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@CentOS ~]$ ps -ef | grep ora_ | grep -v grep</span><br></pre></td></tr></table></figure>
 <p>出现进程信息（也是网图，路径一样）：<br><img src="https://upload-images.jianshu.io/upload_images/15228836-f97d3fd018bbc8a2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="进程信息"><br>查看以下监听状态：</p>
-<pre><code>[oracle@CentOS ~]$ lsnrctl status</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[oracle@CentOS ~]$ lsnrctl status</span><br></pre></td></tr></table></figure>
 <p>出现提示：（网图）<br><img src="https://upload-images.jianshu.io/upload_images/15228836-d0e445b4e10c504e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="监听状态"><br><strong>3.4.3 登录查看实例状态</strong></p>
-<pre><code>[oracle@CentOS~]$ sqlplus / as sysdba
-......
-......
-SQL&gt; select status from v$instance;</code></pre>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[oracle@CentOS~]$ sqlplus &#x2F; as sysdba</span><br><span class="line">......</span><br><span class="line">......</span><br><span class="line">SQL&gt; select status from v$instance;</span><br></pre></td></tr></table></figure>
 <p>出现这种提示代表实例启动成功：（网图）<br><img src="https://upload-images.jianshu.io/upload_images/15228836-25843c54893d7aeb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="实例状态"><br>至此，数据库软件的安装和数据库实例的创建都成功了。</p>
 
     </div>

@@ -690,6 +690,9 @@ hr {
   color: #fff;
   vertical-align: text-top;
 }
+.post-content pre code {
+  background-color: #23241f;
+}
 .post-content pre {
   word-wrap: normal;
 }
