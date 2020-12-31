@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    小布CVG
+  </title>
+  
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+  
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  <!-- 百度统计 -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?70e6a2d8bff4ee09161860a6fcead42a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body id="bodyx" class="bg_while">
+  <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            linux常用操作
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <p><strong>查看发行版</strong><br><code>lsb_release -a</code></p>
+<p><strong>查看系统位数</strong><br><code>getconf LONG_BIT</code></p>
+<p><strong>查看机器名</strong><br><code>hostname</code></p>
+<p><strong>查看被系统识别的磁盘</strong><br><code>fdisk -l</code></p>
+<p><strong>查看磁盘类型</strong><br><code>df -T</code></p>
+<p><strong>查看磁盘占用情况</strong><br><code>df -h</code></p>
+<p><strong>挂载磁盘</strong><br><code>mount -t ext4 /dev/vdb /mnt/vdb</code></p>
+<p><strong>列出所有可用块设备的信息，显示块与块之间的依赖关系</strong><br><code>lsblk</code></p>
+<p><strong>使用 ext4 格式化磁盘</strong><br><code>mkfs.ext4 /dev/sdb</code></p>
+<p><strong>修改文件所属人</strong><br><code>chown -R oracle:oinstall /mnt/vdb/data/oracle/</code></p>
+<p><strong>修改文件权限</strong><br><code>chmod -R 775 /mnt/vdb/data/oracle/</code></p>
+<p><strong>Linux 添加一块新硬盘的步骤</strong><br>**创建分区            </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fdisk &#x2F;dev&#x2F;vdb</span><br><span class="line">	n</span><br><span class="line">	p</span><br><span class="line">	1</span><br><span class="line">	(default)</span><br><span class="line">	(default)</span><br><span class="line">	w</span><br></pre></td></tr></table></figure>
+
+<p><strong>格式化</strong><br><code>mkfs.ext4 /dev/sdb</code></p>
+<p><strong>挂载</strong><br><code>mount /dev/vdb1 /mnt/vdb</code><br>#**END ###################</p>
+<p><strong>开放端口</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;5672&#x2F;tcp --permanent          **开放5672端口</span><br><span class="line">firewall-cmd --zone&#x3D;public --remove-port&#x3D;5672&#x2F;tcp --permanent    **关闭5672端口</span><br><span class="line">firewall-cmd --reload   					**配置立即生效</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看防火墙所有开放的端口</strong><br><code>firewall-cmd --zone=public --list-ports</code></p>
+<p><strong>关闭防火墙</strong><br><code>systemctl stop firewalld.service</code></p>
+<p><strong>查看防火墙状态</strong><br><code>firewall-cmd --state</code></p>
+<p><strong>查看监听的端口</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnpt</span><br><span class="line">PS:centos7默认没有 netstat 命令，需要安装 net-tools 工具，yum install -y net-tools</span><br></pre></td></tr></table></figure>
+
+<p><strong>检查端口被哪个进程占用</strong><br><code>netstat -lnpt | grep 5672</code></p>
+<p><strong>查看进程的详细信息</strong><br><code>ps 6832</code></p>
+<p><strong>中止进程</strong><br><code>kill -9 6832</code></p>
+<p><strong>开启某个端口的TCP监听</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install nc -y</span><br><span class="line">nc -l -p 9140</span><br></pre></td></tr></table></figure>
+
+<p><strong>查看挂载点</strong><br><code>df -h</code></p>
+<p><strong>查询一个软件包是否安装</strong><br><code>rpm –qa | grep redis</code></p>
+<p><strong>查询一个软件包安装了哪些文件</strong><br><code>rpm -ql redis</code></p>
+
+    </div>
+
+    
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    
+</div>
+  <div class="footer" id="footer">
+  <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink"
+      target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+    <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+      <!-- <input type="checkbox" name="switch" id="update_style"> -->
+      <span class="el-switch-style"></span>
+    </label>
+    <!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+  </p>
+</div>
+<input type="hidden" id="web_style" value="white">
+<input type="hidden" id="valine_appid" value="Xzvozzq9Js3RB8cdgGFP7RP6-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="U47lrRiTDWUlYtJeL0NytIrc">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+  .v * {
+    color: #698fca;
+  }
+
+  .v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+  }
+
+  .v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+  }
+
+  .v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+  }
+
+  .v a {
+    color: #8696b1;
+  }
+
+  .v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+  }
+</style>
+</body>
+
+</html>
