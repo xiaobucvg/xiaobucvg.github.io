@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="renderer" content="webkit">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>
+    小布CVG
+  </title>
+  
+<link rel="stylesheet" href="/libs/highlight/styles/monokai-sublime.css">
+
+  
+<link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/style.css">
+
+
+  <!-- 百度统计 -->
+  <script>
+    var _hmt = _hmt || [];
+    (function () {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?70e6a2d8bff4ee09161860a6fcead42a";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body id="bodyx" class="bg_while">
+  <div class="hd posts">
+    <a href="/index.html"><i class="fa fa-reply replay-btn" aria-hidden="true"></i></a>
+    <div class="post-title">
+        <p>
+            常用操作Linux
+        </p>
+        <hr>
+    </div>
+    <div class="post-content">
+        <h2 id="一、系统信息查看相关"><a href="#一、系统信息查看相关" class="headerlink" title="一、系统信息查看相关"></a>一、系统信息查看相关</h2><p><strong>1.1 查看发行版</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsb_release -a</span><br></pre></td></tr></table></figure>
+
+<p><strong>1.2 查看系统位数</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">getconf LONG_BIT</span><br></pre></td></tr></table></figure>
+
+<p><strong>1.3 查看机器名</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hostname</span><br></pre></td></tr></table></figure>
+
+<p><strong>1.4 查看被系统识别的磁盘</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
+
+<p><strong>1.5 查看磁盘类型</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -T</span><br></pre></td></tr></table></figure>
+
+<p><strong>1.6 查看磁盘占用情况</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">df -h</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、磁盘操作相关"><a href="#二、磁盘操作相关" class="headerlink" title="二、磁盘操作相关"></a>二、磁盘操作相关</h2><p><strong>2.1 挂载磁盘</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount -t ext4 &#x2F;dev&#x2F;vdb &#x2F;mnt&#x2F;vdb</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.2 列出所有可用块设备的信息，显示块与块之间的依赖关系</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsblk</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.3 使用 ext4 格式化磁盘</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs.ext4 &#x2F;dev&#x2F;sdb</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.4 创建分区</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">fdisk &#x2F;dev&#x2F;vdb</span><br><span class="line">	n</span><br><span class="line">	p</span><br><span class="line">	1</span><br><span class="line">	(default)</span><br><span class="line">	(default)</span><br><span class="line">	w</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.5 格式化</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs.ext4 &#x2F;dev&#x2F;sdb</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.6 挂载</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mount &#x2F;dev&#x2F;vdb1 &#x2F;mnt&#x2F;vdb</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、文件操作相关"><a href="#三、文件操作相关" class="headerlink" title="三、文件操作相关"></a>三、文件操作相关</h2><p><strong>3.1 修改文件所属人</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chown -R oracle:oinstall &#x2F;mnt&#x2F;vdb&#x2F;data&#x2F;oracle&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p><strong>3.2 修改文件权限</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod -R 775 &#x2F;mnt&#x2F;vdb&#x2F;data&#x2F;oracle&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、防火墙相关"><a href="#四、防火墙相关" class="headerlink" title="四、防火墙相关"></a>四、防火墙相关</h2><p><strong>4.1 端口操作</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;5672&#x2F;tcp --permanent       # 开放5672端口</span><br><span class="line">firewall-cmd --zone&#x3D;public --remove-port&#x3D;5672&#x2F;tcp --permanent    # 关闭5672端口   </span><br></pre></td></tr></table></figure>
+<p><strong>4.2 配置立即生效</strong><br>firewall-cmd –reload                                                      </p>
+<p><strong>4.3 查看防火墙所有开放的端口</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --list-ports</span><br></pre></td></tr></table></figure>
+
+<p><strong>4.4 关闭防火墙</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld.service</span><br></pre></td></tr></table></figure>
+
+<p><strong>4.5 查看防火墙状态</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --state</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="五、端口进程相关"><a href="#五、端口进程相关" class="headerlink" title="五、端口进程相关"></a>五、端口进程相关</h2><p><strong>5.1 查看监听的端口</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnpt</span><br><span class="line">PS:centos7默认没有 netstat 命令，需要安装 net-tools 工具，yum install -y net-tools</span><br></pre></td></tr></table></figure>
+
+<p><strong>5.2 检查端口被哪个进程占用</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">netstat -lnpt | grep 5672</span><br></pre></td></tr></table></figure>
+
+<p><strong>5.3 查看进程的详细信息</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ps 6832</span><br></pre></td></tr></table></figure>
+
+<p><strong>5.4 中止进程</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kill -9 6832</span><br></pre></td></tr></table></figure>
+
+<p><strong>5.5 开启某个端口的TCP监听</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install nc -y</span><br><span class="line">nc -l -p 9140</span><br></pre></td></tr></table></figure>
+
+<h2 id="六、软件包相关"><a href="#六、软件包相关" class="headerlink" title="六、软件包相关"></a>六、软件包相关</h2><p><strong>6.1 查询一个软件包是否安装</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm –qa | grep redis</span><br></pre></td></tr></table></figure>
+
+<p><strong>6.2 查询一个软件包安装了哪些文件</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rpm -ql redis</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+        <hr class="fhr">
+        <div id="vcomments"></div>
+    
+</div>
+  <div class="footer" id="footer">
+  <p>Copyright © 2020 <a class="flink" target="_blank" rel="noopener" href="https://hexo.io">Hexo</a>-<a class="flink"
+      target="_blank" rel="noopener" href="https://github.com/sanjinhub/hexo-theme-geek">Geek</a>.
+    <label class="el-switch el-switch-green el-switch-sm" style="vertical-align: sub;">
+      <!-- <input type="checkbox" name="switch" id="update_style"> -->
+      <span class="el-switch-style"></span>
+    </label>
+    <!--         <script type="text/javascript">
+        var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");
+        document.write(unescape("%3Cspan id='cnzz_stat_icon_1278548644'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "v1.cnzz.com/stat.php%3Fid%3D1278548644%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));
+        </script> -->
+  </p>
+</div>
+<input type="hidden" id="web_style" value="white">
+<input type="hidden" id="valine_appid" value="Xzvozzq9Js3RB8cdgGFP7RP6-gzGzoHsz">
+<input type="hidden" id="valine_appKey" value="U47lrRiTDWUlYtJeL0NytIrc">
+
+<script src="/libs/jquery.min.js"></script>
+
+
+<script src="/libs/highlight/highlight.pack.js"></script>
+
+<script src='//cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+
+<script src="/js/js.js"></script>
+
+<style type="text/css">
+  .v * {
+    color: #698fca;
+  }
+
+  .v .vlist .vcard .vhead .vsys {
+    color: #3a3e4a;
+  }
+
+  .v .vlist .vcard .vh .vmeta .vat {
+    color: #638fd5;
+  }
+
+  .v .vlist .vcard .vhead .vnick {
+    color: #6ba1ff;
+  }
+
+  .v a {
+    color: #8696b1;
+  }
+
+  .v .vlist .vcard .vhead .vnick:hover {
+    color: #669bfc;
+  }
+</style>
+</body>
+
+</html>
