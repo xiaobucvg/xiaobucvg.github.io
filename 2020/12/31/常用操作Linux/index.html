@@ -84,7 +84,9 @@
 
 <h2 id="四、防火墙相关"><a href="#四、防火墙相关" class="headerlink" title="四、防火墙相关"></a>四、防火墙相关</h2><p><strong>4.1 端口操作</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --add-port&#x3D;5672&#x2F;tcp --permanent       # 开放5672端口</span><br><span class="line">firewall-cmd --zone&#x3D;public --remove-port&#x3D;5672&#x2F;tcp --permanent    # 关闭5672端口   </span><br></pre></td></tr></table></figure>
-<p><strong>4.2 配置立即生效</strong><br>firewall-cmd –reload                                                      </p>
+<p><strong>4.2 配置立即生效</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --reload   					                               </span><br></pre></td></tr></table></figure>
+
 <p><strong>4.3 查看防火墙所有开放的端口</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone&#x3D;public --list-ports</span><br></pre></td></tr></table></figure>
 
