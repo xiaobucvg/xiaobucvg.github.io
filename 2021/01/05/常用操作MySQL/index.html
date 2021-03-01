@@ -149,7 +149,7 @@
                                                   href="http://yoursite-url/2021/01/05/常用操作MySQL/">
                                                 <title>
                                                   
-                                                    常用操作-MySQL - xiaobucvg | blog
+                                                    学习笔记-MySQL - xiaobucvg | blog
                                                       
                                                 </title>
 <meta name="generator" content="Hexo 4.2.1"></head>
@@ -324,8 +324,8 @@
               <a class="tag" href="/tags/#notes" title="notes">notes</a>
               
             </div>
-            <h1>常用操作-MySQL</h1>
-            <h2 class="subheading">MySQL 的常用操作</h2>
+            <h1>学习笔记-MySQL</h1>
+            <h2 class="subheading">MySQL 的学习笔记</h2>
             <span class="meta">
               Posted by xiaobu on
               2021-01-05
@@ -340,7 +340,7 @@
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">134</span> In Total
+              Words <span class="post-count">231</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- 不蒜子统计 start -->
@@ -400,39 +400,34 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <p><strong>Centos 安装 Mysql</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> mysql</span><br><span class="line">sudo rpm -Uvh <span class="keyword">http</span>://dev.mysql.com/<span class="keyword">get</span>/mysql-community-<span class="keyword">release</span>-el7<span class="number">-5.</span>noarch.rpm</span><br><span class="line">yum <span class="keyword">install</span> mysql-<span class="keyword">server</span></span><br><span class="line">service mysqld <span class="keyword">start</span></span><br><span class="line">lsof -i:<span class="number">3306</span>     **查看<span class="number">3306</span>端口是否开启</span><br><span class="line">chkconfig <span class="comment">--add mysqld     **设置开机自启</span></span><br><span class="line">mysqladmin -u root <span class="keyword">password</span> 密码    **设置root密码</span><br></pre></td></tr></table></figure>
+        <h2 id="一、安装与部署"><a href="#一、安装与部署" class="headerlink" title="一、安装与部署"></a>一、安装与部署</h2><h3 id="1-1-Centos-安装-Mysql"><a href="#1-1-Centos-安装-Mysql" class="headerlink" title="1.1 Centos 安装 Mysql"></a>1.1 Centos 安装 Mysql</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">yum <span class="keyword">install</span> mysql</span><br><span class="line">sudo rpm -Uvh <span class="keyword">http</span>://dev.mysql.com/<span class="keyword">get</span>/mysql-community-<span class="keyword">release</span>-el7<span class="number">-5.</span>noarch.rpm</span><br><span class="line">yum <span class="keyword">install</span> mysql-<span class="keyword">server</span></span><br><span class="line">service mysqld <span class="keyword">start</span></span><br><span class="line">lsof -i:<span class="number">3306</span>     **查看<span class="number">3306</span>端口是否开启</span><br><span class="line">chkconfig <span class="comment">--add mysqld     **设置开机自启</span></span><br><span class="line">mysqladmin -u root <span class="keyword">password</span> 密码    **设置root密码</span><br></pre></td></tr></table></figure>
 
-<p><strong>创建用户允许远程登陆</strong></p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE<span class="built_in"> USER </span> <span class="string">'username'</span>@<span class="string">'host'</span>   IDENTIFIED BY  <span class="string">'password'</span>;</span><br></pre></td></tr></table></figure>
+<h2 id="二、用户操作"><a href="#二、用户操作" class="headerlink" title="二、用户操作"></a>二、用户操作</h2><h3 id="2-1-创建用户允许远程登陆"><a href="#2-1-创建用户允许远程登陆" class="headerlink" title="2.1 创建用户允许远程登陆"></a>2.1 创建用户允许远程登陆</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE<span class="built_in"> USER </span> <span class="string">'username'</span>@<span class="string">'host'</span>   IDENTIFIED BY  <span class="string">'password'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><strong>授予用户所有权限 （数据库.数据表）</strong></p>
-<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">ON</span>  *.*  <span class="keyword">TO</span>   <span class="string">'username'</span>@<span class="string">'host'</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-2-授予用户所有权限-（数据库-数据表）"><a href="#2-2-授予用户所有权限-（数据库-数据表）" class="headerlink" title="2.2 授予用户所有权限 （数据库.数据表）**"></a>2.2 授予用户所有权限 （数据库.数据表）**</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> <span class="keyword">ON</span>  *.*  <span class="keyword">TO</span>   <span class="string">'username'</span>@<span class="string">'host'</span></span><br></pre></td></tr></table></figure>
 
-<p><strong>修改用户密码</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">PASSWORD</span> <span class="keyword">FOR</span> <span class="string">'username'</span>@<span class="string">'host'</span> = <span class="keyword">PASSWORD</span>(<span class="string">'newpassword'</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="2-3-修改用户密码"><a href="#2-3-修改用户密码" class="headerlink" title="2.3 修改用户密码"></a>2.3 修改用户密码</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> <span class="keyword">PASSWORD</span> <span class="keyword">FOR</span> <span class="string">'username'</span>@<span class="string">'host'</span> = <span class="keyword">PASSWORD</span>(<span class="string">'newpassword'</span>);</span><br></pre></td></tr></table></figure>
 
-<p><strong>删除用户</strong></p>
-<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP<span class="built_in"> USER </span><span class="string">'username'</span>@<span class="string">'host'</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="2-4-删除用户"><a href="#2-4-删除用户" class="headerlink" title="2.4 删除用户"></a>2.4 删除用户</h3><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP<span class="built_in"> USER </span><span class="string">'username'</span>@<span class="string">'host'</span>;</span><br></pre></td></tr></table></figure>
 
-<p><strong>刷新权限</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="2-5-刷新权限"><a href="#2-5-刷新权限" class="headerlink" title="2.5 刷新权限"></a>2.5 刷新权限</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FLUSH</span> <span class="keyword">PRIVILEGES</span>;</span><br></pre></td></tr></table></figure>
 
-<p><strong>查看某个用户所有权限</strong></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">GRANTS</span> <span class="keyword">for</span> root@<span class="string">'%'</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-6-查看某个用户所有权限"><a href="#2-6-查看某个用户所有权限" class="headerlink" title="2.6 查看某个用户所有权限"></a>2.6 查看某个用户所有权限</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SHOW</span> <span class="keyword">GRANTS</span> <span class="keyword">for</span> root@<span class="string">'%'</span></span><br></pre></td></tr></table></figure>
 
+<h2 id="三、时间类型的比较"><a href="#三、时间类型的比较" class="headerlink" title="三、时间类型的比较"></a>三、时间类型的比较</h2><p>单纯的比大小可以直接用 &gt; = &lt; ,要得出具体相差的时间是多少，则需要分别计算日期与时间差，最后换算为相应时间单位后相加得到最终结果。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">current_timestamp</span>() &gt; <span class="string">'2020-1-1'</span>;</span><br></pre></td></tr></table></figure>
 
         <hr>
         <!-- Pager -->
         <ul class="pager">
           
           <li class="previous">
-            <a href="/2021/01/06/常用操作Redis/" data-toggle="tooltip" data-placement="top" title="常用操作-Redis">&larr; Previous Post</a>
+            <a href="/2021/01/06/常用操作Redis/" data-toggle="tooltip" data-placement="top" title="学习笔记-Redis">&larr; Previous Post</a>
           </li>
           
           
           <li class="next">
-            <a href="/2021/01/04/常用操作Maven/" data-toggle="tooltip" data-placement="top" title="常用操作-Maven">Next Post &rarr;</a>
+            <a href="/2021/01/04/常用操作Maven/" data-toggle="tooltip" data-placement="top" title="学习笔记-Maven">Next Post &rarr;</a>
           </li>
           
         </ul>
@@ -478,7 +473,7 @@
     </li>
     <li class="social-share-li">
       <a target="_blank" class="social-share-icon"
-        href="mailto:?subject=常用操作-MySQL&body=Hi,I found this website and thought you might like it http://yoursite-url/2021/01/05/常用操作MySQL/">
+        href="mailto:?subject=学习笔记-MySQL&body=Hi,I found this website and thought you might like it http://yoursite-url/2021/01/05/常用操作MySQL/">
         <i class="fa fa-envelope fa-1x" aria-hidden="true"></i>
       </a>
     </li>
@@ -565,7 +560,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="nav">none</ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#一、安装与部署"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">一、安装与部署</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#1-1-Centos-安装-Mysql"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">1.1 Centos 安装 Mysql</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#二、用户操作"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">二、用户操作</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-1-创建用户允许远程登陆"><span class="toc-nav-number">2.1.</span> <span class="toc-nav-text">2.1 创建用户允许远程登陆</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-2-授予用户所有权限-（数据库-数据表）"><span class="toc-nav-number">2.2.</span> <span class="toc-nav-text">2.2 授予用户所有权限 （数据库.数据表）**</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-3-修改用户密码"><span class="toc-nav-number">2.3.</span> <span class="toc-nav-text">2.3 修改用户密码</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-4-删除用户"><span class="toc-nav-number">2.4.</span> <span class="toc-nav-text">2.4 删除用户</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-5-刷新权限"><span class="toc-nav-number">2.5.</span> <span class="toc-nav-text">2.5 刷新权限</span></a></li><li class="toc-nav-item toc-nav-level-3"><a class="toc-nav-link" href="#2-6-查看某个用户所有权限"><span class="toc-nav-number">2.6.</span> <span class="toc-nav-text">2.6 查看某个用户所有权限</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#三、时间类型的比较"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">三、时间类型的比较</span></a></li></ol>
         
         </div>
       </aside>
