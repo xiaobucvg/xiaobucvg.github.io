@@ -107,13 +107,6 @@
   </url>
   
   <url>
-    <loc>http://yoursite-url/404.html</loc>
-    
-    <lastmod>2021-03-01</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://yoursite-url/2021/01/06/Java%E5%BC%80%E5%8F%91%EF%BC%8C%E4%BD%A0%E4%BC%9A%E8%BF%87%E5%BA%A6%E8%AE%BE%E8%AE%A1%E5%90%97/</loc>
     
     <lastmod>2021-03-01</lastmod>
@@ -122,6 +115,13 @@
   
   <url>
     <loc>http://yoursite-url/2021/01/14/SpringBoot%E9%85%8D%E7%BD%AE%E5%8A%A8%E6%80%81%E6%95%B0%E6%8D%AE%E6%BA%90%EF%BC%88%E5%8F%AF%E5%9C%A8%E8%BF%90%E8%A1%8C%E6%97%B6%E6%B7%BB%E5%8A%A0%EF%BC%89/</loc>
+    
+    <lastmod>2021-03-01</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite-url/404.html</loc>
     
     <lastmod>2021-03-01</lastmod>
     
