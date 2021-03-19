@@ -146,10 +146,10 @@
 
                                                 <!-- ga & ba script hoook -->
                                                 <link rel="canonical"
-                                                  href="http://yoursite-url/2021/02/06/无影坦克现形/">
+                                                  href="http://yoursite-url/2021/03/18/从生产者消费者模型看wait-notify/">
                                                 <title>
                                                   
-                                                    无影坦克现形插件使用教程 - xiaobucvg | blog
+                                                    从生产者消费者模型看wait,notify - xiaobucvg | blog
                                                       
                                                 </title>
 <meta name="generator" content="Hexo 4.2.1"></head>
@@ -321,14 +321,14 @@
           <div class="post-heading">
             <div class="tags">
               
-              <a class="tag" href="/tags/#福利资源" title="福利资源">福利资源</a>
+              <a class="tag" href="/tags/#Java教程" title="Java教程">Java教程</a>
               
             </div>
-            <h1>无影坦克现形插件使用教程</h1>
+            <h1>从生产者消费者模型看wait,notify</h1>
             <h2 class="subheading"></h2>
             <span class="meta">
               Posted by xiaobu on
-              2021-02-06
+              2021-03-18
             </span>
 
 
@@ -336,11 +336,11 @@
             <!-- WordCount start -->
             <div class="blank_box"></div>
             <span class="meta">
-              Estimated Reading Time <span class="post-count">1</span> Minutes
+              Estimated Reading Time <span class="post-count">5</span> Minutes
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">299</span> In Total
+              Words <span class="post-count">1.3k</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- 不蒜子统计 start -->
@@ -400,28 +400,35 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <h2 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、介绍</h2><p>本插件可以让无影坦克现形，不用手动下载然后使用工具转换，简单来说实现了在国内网站直接看s图<br>本插件基于油猴脚本，不知道怎么用油猴脚本的我贴一个教程帖子：<a href="https://zhuanlan.zhihu.com/p/68617837" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/68617837</a></p>
-<h2 id="二、使用方式"><a href="#二、使用方式" class="headerlink" title="二、使用方式"></a>二、使用方式</h2><p>进入下载地址：<a href="https://greasyfork.org/zh-CN/scripts/421308-%E5%9D%A6%E5%85%8B%E7%8E%B0%E5%BD%A2" target="_blank" rel="noopener">https://greasyfork.org/zh-CN/scripts/421308-%E5%9D%A6%E5%85%8B%E7%8E%B0%E5%BD%A2</a><br>直接安装，之后访问所有的网页就可以直接看到现形后的图片了。<br>注意：</p>
-<ul>
-<li>请使用基于 chrome 内核的浏览器，如 360 浏览器，或者直接 chrome 浏览器，其余浏览器不保证可用性。</li>
-<li>电脑可用，手机目前不可用。</li>
-<li>初版、问题很多，有一些无法现形，且启用此插件会导致大量的请求发生，可能会对浏览性能产生影响，低配置电脑谨慎使用。</li>
-<li>问题请直接反馈邮箱 <a href="http://www.1714005186@gmail.com" target="_blank" rel="noopener">www.1714005186@gmail.com</a> 或者添加wx，zh1714005186.</li>
-</ul>
-<h2 id="三、后记"><a href="#三、后记" class="headerlink" title="三、后记"></a>三、后记</h2><p>不知道这种东西违不违法，如果有懂法律方面内容的朋友请及时联系并提醒我，我不想进去蹲几年。</p>
+        <h2 id="一、前言"><a href="#一、前言" class="headerlink" title="一、前言"></a>一、前言</h2><p>先来贴一段生产者，消费者模型的代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Wait</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">volatile</span> <span class="keyword">static</span> <span class="keyword">int</span> count = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        System.out.println(<span class="string">"开启10个生产者"</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Producer(), <span class="string">"线程:"</span> + i).start();</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">"开启10个消费者"</span>);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(<span class="keyword">new</span> Consumer(), <span class="string">"线程:"</span> + i).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 生产者</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Producer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (Wait<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"生产者"</span> + Thread.currentThread().getName() + <span class="string">"准备生产"</span>);</span><br><span class="line">            <span class="keyword">while</span> (Wait.count &gt;= <span class="number">10</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">"队列已满，生产者"</span> + Thread.currentThread().getName() + <span class="string">"停止生产"</span>);</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Wait<span class="class">.<span class="keyword">class</span>.<span class="title">wait</span>()</span>;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">"生产者"</span> + Thread.currentThread().getName() + <span class="string">"生产完毕"</span>);</span><br><span class="line">            Wait.count++;</span><br><span class="line">            System.out.println(<span class="string">"生产者"</span> + Thread.currentThread().getName() + <span class="string">"唤醒其他线程"</span>);</span><br><span class="line">            Wait<span class="class">.<span class="keyword">class</span>.<span class="title">notifyAll</span>()</span>;</span><br><span class="line">            System.out.println(<span class="string">"当前count值"</span> + Wait.count);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 消费者</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Consumer</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (Wait<span class="class">.<span class="keyword">class</span>) </span>&#123;</span><br><span class="line">            System.out.println(<span class="string">"消费者"</span> + Thread.currentThread().getName() + <span class="string">"准备消费"</span>);</span><br><span class="line">            <span class="keyword">while</span> (Wait.count &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                System.out.println(<span class="string">"队列已空，消费者"</span> + Thread.currentThread().getName() + <span class="string">"停止消费"</span>);</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    Wait<span class="class">.<span class="keyword">class</span>.<span class="title">wait</span>()</span>;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            System.out.println(<span class="string">"消费者"</span> + Thread.currentThread().getName() + <span class="string">"消费完毕"</span>);</span><br><span class="line">            Wait.count--;</span><br><span class="line">            System.out.println(<span class="string">"消费者"</span> + Thread.currentThread().getName() + <span class="string">"唤醒其他线程"</span>);</span><br><span class="line">            Wait<span class="class">.<span class="keyword">class</span>.<span class="title">notifyAll</span>()</span>;</span><br><span class="line">            System.out.println(<span class="string">"当前count值"</span> + Wait.count);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二、为什么wait与notify只能在synchronized代码块中执行"><a href="#二、为什么wait与notify只能在synchronized代码块中执行" class="headerlink" title="二、为什么wait与notify只能在synchronized代码块中执行"></a>二、为什么wait与notify只能在synchronized代码块中执行</h2><p>首先我们要知道，wait 与 notify 方法是属于 Object 的，每个对象都拥有这两个方法，这与线程特有的方法不同。</p>
+<p>synchronized 代码块使用的是对象内置的监视器锁，每个对象都拥有自己的监视器锁，而 wait，notify 方法实际上也是在锁对象上执行的。只有在 synchronized 代码块中才使用了锁对象，所以调用 wait，notify 才有意义。</p>
+<p>了解一下前置知识：<br>JVM 会为每个锁对象维护两个集合，Entry Set 与 Wait Set，如果一个线程 A，持有了该锁对象，那么对于其余的线程想要获取该锁对象的话，它只能进入 Entry Set，并且此时线程处于 BLOCKED 状态；如果一个线程 A 调用了锁对象的 wait 方法，那么线程 A 会释放锁对象，之后进入锁对象的 Wait Set 中，并且处于 WAITING 状态。</p>
+<p>当前线程调用锁对象的 wait 方法，首先会释放锁，然后进入锁对象的 Wait Set 中；当前线程调用锁对象的 notify 方法，会从锁对象的 Wait Set 中唤醒一个线程。</p>
+<h2 id="三、为什么生产者消费者要用-while-循环做判断"><a href="#三、为什么生产者消费者要用-while-循环做判断" class="headerlink" title="三、为什么生产者消费者要用 while 循环做判断"></a>三、为什么生产者消费者要用 while 循环做判断</h2><p>以消费者为例，在调用锁对象的 wait 方法时，使用的是 while 循环，如果将 while 循环换成 if 条件会产生什么问题？</p>
+<p>考虑一种情况，消费者 A 在 wait 方法停住，消费者 B 消费了最后一个资源，调用 notify 唤醒了消费者 A，消费者 A 直接从 wait 方法往下走，此时资源为空，就会导致出现问题。如果使用 while 循环，那么消费者 A 被唤醒后，还是会判断一次资源情况，就不会出现问题。</p>
+<h2 id="四、为什么要用-notifyAll-不用-notify"><a href="#四、为什么要用-notifyAll-不用-notify" class="headerlink" title="四、为什么要用 notifyAll 不用 notify"></a>四、为什么要用 notifyAll 不用 notify</h2><p>还是以消费者为例，如果用的是 notify，一个消费者消费了最后一个资源，然后又唤醒了一个消费者，被唤醒的消费者以为没有资源而进入等待状态，此时所有的线程都在 wait ，也就是造成了死锁问题。</p>
+<h2 id="五、能不能用-Lock-实现生产者消费者"><a href="#五、能不能用-Lock-实现生产者消费者" class="headerlink" title="五、能不能用 Lock 实现生产者消费者"></a>五、能不能用 Lock 实现生产者消费者</h2><p>notifyAll 会造成性能问题，可以用 Lock 锁对象实现生产者消费者：</p>
+<p>代码实例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PAndC</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> <span class="keyword">int</span> i = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Lock lock = <span class="keyword">new</span> ReentrantLock();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Condition producerSet = lock.newCondition();</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> Condition consumerSet = lock.newCondition();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">5</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">                    lock.lock();</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span>(i &gt;= <span class="number">10</span>)&#123;</span><br><span class="line">                            System.out.println(Thread.currentThread().getName() + <span class="string">"等待"</span>);</span><br><span class="line">                            producerSet.await();</span><br><span class="line">                        &#125;</span><br><span class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">"生产"</span>);</span><br><span class="line">                        i ++;</span><br><span class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">"通知其他人"</span>);</span><br><span class="line">                        consumerSet.signal();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                        lock.unlock();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;,<span class="string">"生产者"</span>).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">10</span>; j++) &#123;</span><br><span class="line">            <span class="keyword">new</span> Thread(() -&gt; &#123;</span><br><span class="line">                <span class="keyword">while</span>(<span class="keyword">true</span>)&#123;</span><br><span class="line">                    lock.lock();</span><br><span class="line">                    <span class="keyword">try</span> &#123;</span><br><span class="line">                        <span class="keyword">if</span>(i &lt;= <span class="number">0</span>)&#123;</span><br><span class="line">                            System.out.println(Thread.currentThread().getName() + <span class="string">"等待"</span>);</span><br><span class="line">                            consumerSet.await();</span><br><span class="line">                        &#125;</span><br><span class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">"消费"</span>);</span><br><span class="line">                        i --;</span><br><span class="line">                        System.out.println(Thread.currentThread().getName() + <span class="string">"通知其他人"</span>);</span><br><span class="line">                        producerSet.signal();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">                        lock.unlock();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">            &#125;,<span class="string">"消费者"</span>).start();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Lock 对象可以创建多个等待集，所以可以指定唤醒哪个等待集中的线程，不会出现唤醒相同类型线程导致的问题。<br>其中，Lock 对象相当于监视器锁，condition 集相当于 Wait Set，await 方法相当于 wait 方法，signal 方法相当于 notify 方法。</p>
+<h2 id="六、总结"><a href="#六、总结" class="headerlink" title="六、总结"></a>六、总结</h2><ol>
+<li>wait notify 是属于锁对象的方法，操作的是锁对象维护的集合，集合中存放的是线程；</li>
+<li>永远要在 while 循环中调用 wait 方法；</li>
+<li>使用 Lock 对象能获得更好的操作；</li>
+</ol>
 
 
         <hr>
         <!-- Pager -->
         <ul class="pager">
           
-          <li class="previous">
-            <a href="/2021/03/18/从生产者消费者模型看wait-notify/" data-toggle="tooltip" data-placement="top" title="从生产者消费者模型看wait,notify">&larr; Previous Post</a>
-          </li>
-          
           
           <li class="next">
-            <a href="/2021/01/14/SpringBoot配置动态数据源（可在运行时添加）/" data-toggle="tooltip" data-placement="top" title="SpringBoot配置动态数据源（可在运行时添加）">Next Post &rarr;</a>
+            <a href="/2021/02/06/无影坦克现形/" data-toggle="tooltip" data-placement="top" title="无影坦克现形插件使用教程">Next Post &rarr;</a>
           </li>
           
         </ul>
@@ -467,7 +474,7 @@
     </li>
     <li class="social-share-li">
       <a target="_blank" class="social-share-icon"
-        href="mailto:?subject=无影坦克现形插件使用教程&body=Hi,I found this website and thought you might like it http://yoursite-url/2021/02/06/无影坦克现形/">
+        href="mailto:?subject=从生产者消费者模型看wait,notify&body=Hi,I found this website and thought you might like it http://yoursite-url/2021/03/18/从生产者消费者模型看wait-notify/">
         <i class="fa fa-envelope fa-1x" aria-hidden="true"></i>
       </a>
     </li>
@@ -500,7 +507,7 @@
     repo: 'xiaobucvg.github.io',
     owner: 'xiaobucvg',
     admin: 'xiaobucvg',
-    id: 'Sat Feb 06 2021 20:16:25 GMT+0000', // Ensure uniqueness and length less than 50
+    id: 'Thu Mar 18 2021 18:18:15 GMT+0000', // Ensure uniqueness and length less than 50
     distractionFreeMode: false, // Facebook-like distraction free mode
     perPage: 10 ,
     pagerDirection: 'last',
@@ -554,7 +561,7 @@
         <div id="toc" class="toc-article">
         <strong class="toc-title">Contents</strong>
         
-          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#一、介绍"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">一、介绍</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#二、使用方式"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">二、使用方式</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#三、后记"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">三、后记</span></a></li></ol>
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#一、前言"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">一、前言</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#二、为什么wait与notify只能在synchronized代码块中执行"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">二、为什么wait与notify只能在synchronized代码块中执行</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#三、为什么生产者消费者要用-while-循环做判断"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">三、为什么生产者消费者要用 while 循环做判断</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#四、为什么要用-notifyAll-不用-notify"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">四、为什么要用 notifyAll 不用 notify</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#五、能不能用-Lock-实现生产者消费者"><span class="toc-nav-number">5.</span> <span class="toc-nav-text">五、能不能用 Lock 实现生产者消费者</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#六、总结"><span class="toc-nav-number">6.</span> <span class="toc-nav-text">六、总结</span></a></li></ol>
         
         </div>
       </aside>
@@ -576,7 +583,7 @@
           </h5>
           <div class="tags">
             
-            <a class="tag" href="/tags/#福利资源" title="福利资源">福利资源</a>
+            <a class="tag" href="/tags/#Java教程" title="Java教程">Java教程</a>
             
           </div>
         </section>
