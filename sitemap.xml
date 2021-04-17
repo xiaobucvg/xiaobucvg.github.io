@@ -100,6 +100,20 @@
   </url>
   
   <url>
+    <loc>http://yoursite-url/404.html</loc>
+    
+    <lastmod>2021-04-17</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://yoursite-url/2021/01/06/Java%E5%BC%80%E5%8F%91%EF%BC%8C%E4%BD%A0%E4%BC%9A%E8%BF%87%E5%BA%A6%E8%AE%BE%E8%AE%A1%E5%90%97/</loc>
+    
+    <lastmod>2021-04-17</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://yoursite-url/2021/01/08/%E5%85%8D%E8%B4%B9%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/</loc>
     
     <lastmod>2021-04-17</lastmod>
@@ -115,20 +129,6 @@
   
   <url>
     <loc>http://yoursite-url/2021/03/18/%E4%BB%8E%E7%94%9F%E4%BA%A7%E8%80%85%E6%B6%88%E8%B4%B9%E8%80%85%E6%A8%A1%E5%9E%8B%E7%9C%8Bwait-notify/</loc>
-    
-    <lastmod>2021-04-17</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite-url/404.html</loc>
-    
-    <lastmod>2021-04-17</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://yoursite-url/2021/01/06/Java%E5%BC%80%E5%8F%91%EF%BC%8C%E4%BD%A0%E4%BC%9A%E8%BF%87%E5%BA%A6%E8%AE%BE%E8%AE%A1%E5%90%97/</loc>
     
     <lastmod>2021-04-17</lastmod>
     
